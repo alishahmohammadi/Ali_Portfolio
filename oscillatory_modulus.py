@@ -1,30 +1,26 @@
 #!/usr/bin/env python
 
 import numpy as np
-import matplotlib.pyplot as plt
 import pandas as pd
 import math
 from scipy import optimize
-import gc
 import os
 
 
-class oscilatory_modulus():
+class OscilatoryShear():
     """
     This class method compute the properties of the output results by the LAMMPS
     
     Args:
-    It requirs the path to the stored files
+    Path to the stored Lammps files
 
     """
-    def __int__(self,path_to_LAMMPS,gamma = 0.001, period = 400):
+    def __init__(self,path_to_LAMMPS):
         """ Constructor for the call to assign memebrs of the class"""
         self.path_to_LAMMPS = path_to_LAMMPS
-        self.period = period
-        self.gamma = gamma
 
 
-    def shear_modulus(self,freq):
+    def shear_modulus(self,freq,gamma = 0.001, period = 400):
         """ 
         A function to compute shear modulus from LAMMPS softwar
 
@@ -58,10 +54,14 @@ class oscilatory_modulus():
             for i in range(period):
                 for j in range(start,end):
                     sigma_average[i]+=data[j*period+i,7]
-                    
+
                 sigma_average[i]=sigma_average[i]/(end-start)
-                
+             
             sigma_average=sigma_average-sigma_average.mean()
+            
+            # non-dimentional time 
+            t=np.linspace(0,2.0*math.pi,period) 
+
             a0=sigma_average.max()
             t=np.linspace(0,2.0*math.pi,period) 
 
@@ -77,45 +77,169 @@ class oscilatory_modulus():
 
             G1 = sigma_max*math.cos(phi)/gamma # computing G'
             G2 = sigma_max*math.sin(phi)/gamma # computing G"
-        
-            w = 1/float(freq)
+            w = 1/float(freq)   # storing the frequency omega(w)
         
         return w, G1, G2, sigma_average, t
 
 
-        def particle_movement(self):
+    def particle_movement(self,particle):
+        
+        """ 
+        A function to save particle location vs time in a csv file
+        
+        Args:
+            particle: particle id eg 1., 2.,
             
-            i = 0
-            ii = 0
+        output:
+            csv file saved in the courent directory   
+        """
+        
+        # saving all particles coordinates
+        particle_coord = os.listdir(self.path_to_LAMMPS +'/coord')
+        
+        # number of files in the coord folder
+        file_count = len(particle_coord)
+        
+        # initializing the simulation time and particle coordinate
+        simulation_time = np.zeros(file_count)
+        coordiates = np.zeros([file_count,5])
+        
+        ii = 0
+        for coord in particle_coord:
+        
+            # Read each file in the coord folder
+            file = self.path_to_LAMMPS +'/coord/' + coord
+            try:
+                fp = open(file)
+                array = fp.readlines()
+                ar = np.zeros([1,5])
+                simulation_time[ii] = [float(j) for j in array[1].split()][0]
+                for line in array:
+                    if len(line.split()) == 5:
+                        ar[0,:] = [float(j) for j in line.split()]
+                        if ar[0,0] == particle:
+                            coordiates[ii,:]=ar[0,:]
+        
+                ii+=1
+        
+            finally:
+                fp.close()  
+        
+        df_coordiates = pd.DataFrame(coordiates, columns=["id","r","x","y","z"])
+        df_coordiates['time'] = simulation_time
+        df_coordiates = df_coordiates[["time","id","r","x","y","z"]]
+        
+        return df_coordiates
 
-            time = np.zeros(file_count)
 
-            disp24 = np.zeros([file_count,5])
-
-            for i in range(file_count):
-
-                cnt = i*1000
-                file = pathes + "dump." + str(cnt)
-
+    def pairwise_forces(self,particles):
+        
+        """ 
+        A function to save pair wise forces bewteen two particles
+    
+        Args:
+            particle: pair particles id eg. 12, 13,
+            
+        output:
+            csv file saved in the courent directory   
+        """
+        
+        # saving all particles forces
+        force_files = os.listdir(self.path_to_LAMMPS +'force' + str(particles) +'/')
+        
+        # number of files in the coord folder
+        file_count = len(force_files)
+        
+        pathes = self.path_to_LAMMPS + 'force' + str(particles) +'/'
+        
+        #initializaing the simualtion time and forces in each frc.* file    
+        simulation_time = np.zeros(file_count)
+        force1 = np.zeros([file_count,4])
+        force2 = np.zeros([file_count,4])
+    
+    
+        ii = 0
+        
+        for force in force_files:
+            
+            file  = self.path_to_LAMMPS + 'force' + str(particles) +'/' + force
+            # Check if the file is not empt
+            if os.path.exists(file): 
                 try:
                     fp = open(file)
-
+            
                     array = fp.readlines()
-                    ar = np.zeros([1,5])
-                    time[ii] = [float(j) for j in array[1].split()][0]
-                    for line in array:
-                        if len(line.split()) == 5:
-                            ar[0,:] = [float(j) for j in line.split()]
-                            if ar[0,0] == P[I]:
-                                disp24[ii,:]=ar[0,:]
-
-                    ii+=1
-
+                    
+                    simulation_time[ii] = [float(j) for j in array[1].split()][0]
+                    force1[ii,:] = [float(j) for j in array[9].split()]
+                    force2[ii,:] = [float(j) for j in array[10].split()]
+                    
+                    ii +=1
+                
                 finally:
-                    fp.close()  
-
-            df_disp = pd.DataFrame(disp24, columns=["id","r","x","y","z"])
-            df_disp['time'] = time
-            df_disp = df_disp[["time","id","r","x","y","z"]]
-
-            df_disp.to_csv(PI +".csv")
+                    fp.close()
+            else:
+                print(file, "cant be open")
+    
+            
+        # Construicting two dataframes for forces in frc.* file 
+        df1 = pd.DataFrame(force1, columns=["id","fx","fy","fz"])
+        df1['time'] = simulation_time
+        df_force1 = df1[["time","id","fx","fy","fz"]]
+        
+        df2 = pd.DataFrame(force2, columns=["id","fx","fy","fz"])
+        df2['time'] = simulation_time
+        df_force2 = df2[["time","id","fx","fy","fz"]]        
+        
+        
+        return df_force1, df_force2
+    
+    def plot_coord(self,particle):
+        
+        
+        if not os.path.exists(self.path + 'Figures'):
+            os.makedirs(self.path + 'Figures')
+            
+        df = self.df_coords(particle)
+        df_col = df.columns
+        i = 0
+        for col in df_col[3:]:
+            
+            f,ax = plt.subplots(figsize=(12,8))
+            ax.plot(df['time'],df[col],label = col ,color = 'C' + str(i))
+            ax.set_xlabel('$\~t$',fontsize = 14)
+            ax.set_ylabel('Movement in '+col+' direction',fontsize = 14)
+            if col == 'z':
+                plt.ylim([-1,1])
+            plt.savefig( self.path + 'Figures/'+col+'_dir_P'+str(particle)+".tif")
+            i += 1
+    
+        
+        
+    def plot_force(self,particles):
+        if not os.path.exists(self.path + 'Figures'):
+            os.makedirs(self.path + 'Figures')
+            
+        df = self.df_force(particles)
+        df_col = df.columns
+        i = 0
+        for col in df_col[1:]:
+            
+            f,ax = plt.subplots(figsize=(12,8))
+            ax.plot(df['time'],df[col],label = col,color = 'C' + str(i))
+            ax.set_xlabel('$\~t$',fontsize = 14)
+            ax.set_ylabel('Force '+col, fontsize = 14)
+            
+            plt.savefig( self.path + 'Figures/'+col+'_P'+str(int(df['id'][0]))+".tif")
+            i += 1   
+        
+        
+        
+    
+        
+        
+        
+        
+        
+        
+        
