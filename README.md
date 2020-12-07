@@ -1,3 +1,3 @@
-# LAMMPS_analysis
+# Ali Shahmohammadi Portfolio
 
-This package is to analysis the LAMMPS molecular simulation out put. It containes a function for computing the G' and G'' as well as forces on each particle and their movement
+This page is to provide my projects that I have been working for almost a decade.
