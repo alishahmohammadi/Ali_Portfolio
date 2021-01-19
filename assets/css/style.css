@@ -14,6 +14,7 @@ h1, h2, h3, h4, h5, h6 {
 h2 {
   color: #000;
   font-weight: 600;
+  
 }
 
 h4 {
@@ -35,6 +36,7 @@ a {
   letter-spacing: 2px;
   text-decoration: none;
   color: #71c55d;
+  font-weight: 500;
 }
 
 a:hover {
@@ -46,17 +48,17 @@ ul {
 }
 
 li {
-  color: #626262;
-  font-size: 13px;
-  font-weight: 400;
-  letter-spacing: 2px;
-  line-height: 30px;
-  text-transform: capitalize;
+  color: #000000;
+  font-size: 22px;
+  font-weight: 300;
+  letter-spacing: 0.5px;
+  line-height: 2;
+  margin-bottom: 5px;
 }
 
 p {
-  color: #505050;
-  font-size: 14px;
+  color: #000000;
+  font-size: 22px;
   font-weight: 300;
   letter-spacing: 0.5px;
   line-height: 2;
@@ -74,6 +76,18 @@ span {
   width: 60px;
 }
 
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 30%;
+}
+
+.list{
+  font-size: 12px;
+  white-space: 5px;
+
+}
 .container-full {
   padding-left: 0;
   padding-right: 0;
@@ -130,6 +144,10 @@ span {
 .back-to-top:hover {
   background: #55b03f;
   color: #fff;
+}
+
+table, th, td {
+  border: 1px solid black;
 }
 
 /*--------------------------------------------------------------
@@ -314,15 +332,19 @@ span {
 .nav-menu li {
   position: relative;
   white-space: nowrap;
+  
+  
 }
 
 .nav-menu > li {
   float: left;
+  
 }
 
 .nav-menu li:hover > ul,
 .nav-menu li.sfHover > ul {
   display: block;
+  
 }
 
 .nav-menu ul ul {
@@ -381,10 +403,12 @@ span {
 
 .nav-menu li:hover > a, .nav-menu > .menu-active > a {
   color: #71c55d;
+  
 }
 
 .nav-menu > li {
   margin-left: 10px;
+
 }
 
 .nav-menu ul {
@@ -396,6 +420,7 @@ span {
 
 .nav-menu ul li {
   transition: 0.3s;
+  
 }
 
 .nav-menu ul li a {
@@ -587,6 +612,7 @@ section {
   background-color: #f5fbf3;
   min-height: 40px;
   margin-top: 82px;
+  
 }
 
 @media (max-width: 992px) {
@@ -597,7 +623,7 @@ section {
 
 .breadcrumbs h2 {
   font-size: 24px;
-  font-weight: 300;
+  font-weight: 400;
   margin: 0;
 }
 
@@ -1147,6 +1173,7 @@ section {
   min-height: 125px;
   padding: 20px 10px;
   width: 100%;
+  font-weight: 500;
 }
 
 #blog .block-blog .content-blog h4 {
@@ -1156,12 +1183,15 @@ section {
   font-weight: normal;
   letter-spacing: 0;
   font-size: 16px;
+  font-weight: 500;
 }
 
 #blog .block-blog .content-blog h4 a {
   color: #555;
   text-decoration: none;
   transition: 0.3s;
+  font-weight: 500;
+  
 }
 
 #blog .block-blog .content-blog h4 a:hover {
@@ -1181,6 +1211,7 @@ section {
   transition: 0.3s;
   letter-spacing: 0;
   text-transform: capitalize;
+  font-weight: 500;
 }
 
 #blog .block-blog .content-blog a.readmore:hover {
@@ -1485,5 +1516,7 @@ section {
   letter-spacing: 0;
   color: #71c55d;
 }
+
+
 
 

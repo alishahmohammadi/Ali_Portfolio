@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  width: 100%;
+  
+}
+
+th, td {
+  padding: 10px;
+  text-align: center;
+  font-size: 14px;
+  width: 100%;
+  font-family: 'Arial';
+}
+tr:hover {background-color: #f5f5f5;}
+
+</style>
+</head>
+
+<body>
+
+  <table border="1" class="dataframe">
+    <thead>
+      <tr style="text-align: right;">
+        <th></th>
+        <th>Pet_ID</th>
+        <th>Name</th>
+        <th>Pet_Type</th>
+        <th>Sex</th>
+        <th>Breed</th>
+        <th>Color</th>
+        <th>Found_Location</th>
+        <th>Intake_Type</th>
+        <th>Intake_Condition</th>
+        <th>Age_Upon_Intake_Days</th>
+        <th>Age_Upon_Outcome_Days</th>
+        <th>Outcome_Type</th>
+        <th>Days_in_Center</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th>0</th>
+        <td>A786884</td>
+        <td>*Brock</td>
+        <td>Dog</td>
+        <td>Neutered Male</td>
+        <td>Beagle Mix</td>
+        <td>Tricolor</td>
+        <td>2501 Magin Meadow Dr in Austin (TX)</td>
+        <td>Stray</td>
+        <td>Normal</td>
+        <td>730.0</td>
+        <td>730.0</td>
+        <td>Transfer</td>
+        <td>5</td>
+      </tr>
+      <tr>
+        <th>1</th>
+        <td>A706918</td>
+        <td>Belle</td>
+        <td>Dog</td>
+        <td>Spayed Female</td>
+        <td>English Springer Spaniel</td>
+        <td>White/Liver</td>
+        <td>9409 Bluegrass Dr in Austin (TX)</td>
+        <td>Stray</td>
+        <td>Normal</td>
+        <td>2920.0</td>
+        <td>2920.0</td>
+        <td>Return to Owner</td>
+        <td>0</td>
+      </tr>
+      <tr>
+        <th>2</th>
+        <td>A724273</td>
+        <td>Runster</td>
+        <td>Dog</td>
+        <td>Neutered Male</td>
+        <td>Basenji Mix</td>
+        <td>Sable/White</td>
+        <td>2818 Palomino Trail in Austin (TX)</td>
+        <td>Stray</td>
+        <td>Normal</td>
+        <td>330.0</td>
+        <td>365.0</td>
+        <td>Return to Owner</td>
+        <td>7</td>
+      </tr>
+      <tr>
+        <th>3</th>
+        <td>A665644</td>
+        <td>NaN</td>
+        <td>Cat</td>
+        <td>Intact Female</td>
+        <td>Domestic Shorthair Mix</td>
+        <td>Calico</td>
+        <td>Austin (TX)</td>
+        <td>Stray</td>
+        <td>Sick</td>
+        <td>28.0</td>
+        <td>28.0</td>
+        <td>Transfer</td>
+        <td>0</td>
+      </tr>
+      <tr>
+        <th>4</th>
+        <td>A682524</td>
+        <td>Rio</td>
+        <td>Dog</td>
+        <td>Neutered Male</td>
+        <td>Doberman Pinsch/Australian Cattle Dog</td>
+        <td>Tan/Gray</td>
+        <td>800 Grove Blvd in Austin (TX)</td>
+        <td>Stray</td>
+        <td>Normal</td>
+        <td>1460.0</td>
+        <td>1460.0</td>
+        <td>Return to Owner</td>
+        <td>3</td>
+      </tr>
+      <tr>
+        <th>5</th>
+        <td>A743852</td>
+        <td>Odin</td>
+        <td>Dog</td>
+        <td>Neutered Male</td>
+        <td>Labrador Retriever Mix</td>
+        <td>Chocolate</td>
+        <td>Austin (TX)</td>
+        <td>Owner Surrender</td>
+        <td>Normal</td>
+        <td>730.0</td>
+        <td>730.0</td>
+        <td>Return to Owner</td>
+        <td>3</td>
+      </tr>
+      <tr>
+        <th>6</th>
+        <td>A635072</td>
+        <td>Beowulf</td>
+        <td>Dog</td>
+        <td>Neutered Male</td>
+        <td>Great Dane Mix</td>
+        <td>Black</td>
+        <td>415 East Mary Street in Austin (TX)</td>
+        <td>Public Assist</td>
+        <td>Normal</td>
+        <td>2190.0</td>
+        <td>2190.0</td>
+        <td>Return to Owner</td>
+        <td>2</td>
+      </tr>
+      <tr>
+        <th>7</th>
+        <td>A708452</td>
+        <td>Mumble</td>
+        <td>Dog</td>
+        <td>Neutered Male</td>
+        <td>Labrador Retriever Mix</td>
+        <td>Black/White</td>
+        <td>Austin (TX)</td>
+        <td>Public Assist</td>
+        <td>Normal</td>
+        <td>730.0</td>
+        <td>730.0</td>
+        <td>Return to Owner</td>
+        <td>5</td>
+      </tr>
+      <tr>
+        <th>8</th>
+        <td>A774147</td>
+        <td>NaN</td>
+        <td>Cat</td>
+        <td>Intact Female</td>
+        <td>Domestic Shorthair Mix</td>
+        <td>Black/White</td>
+        <td>6600 Elm Creek in Austin (TX)</td>
+        <td>Stray</td>
+        <td>Injured</td>
+        <td>28.0</td>
+        <td>28.0</td>
+        <td>Transfer</td>
+        <td>0</td>
+      </tr>
+      <tr>
+        <th>9</th>
+        <td>A731435</td>
+        <td>*Casey</td>
+        <td>Cat</td>
+        <td>Neutered Male</td>
+        <td>Domestic Shorthair Mix</td>
+        <td>Cream Tabby</td>
+        <td>Austin (TX)</td>
+        <td>Owner Surrender</td>
+        <td>Normal</td>
+        <td>150.0</td>
+        <td>150.0</td>
+        <td>Transfer</td>
+        <td>5</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+
+</body>

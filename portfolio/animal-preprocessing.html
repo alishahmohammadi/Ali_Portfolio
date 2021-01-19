@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  
+    <title>Data Cleaning</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+  
+    <!-- Favicons -->
+    <link href="../assets/img/favicon.png" rel="icon">
+    <link href="../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Roboto:100,300,400,500,700|Philosopher:400,400i,700,700i" rel="stylesheet">
+  
+    <!-- Vendor CSS Files -->
+    <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="../assets/vendor/modal-video/css/modal-video.min.css" rel="stylesheet">
+    <link href="../assets/vendor/owl.carousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="../assets/vendor/aos/aos.css" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="../assets/css/style.css" rel="stylesheet">
+
+    <link href="../assets/css/prism.css" rel="stylesheet" />
+    <script src="../assets/js/prism.js"></script>
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header">
+    <div class="container">
+
+      <div id="logo" class="pull-left">
+        <h1><a href="../index.html"><span>A</span>LI<span> S</span>hahmohammadi</a></h1>
+        <!-- Uncomment below if you prefer to use an image logo -->
+        <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" title="" /></a>-->
+      </div>
+
+      <nav id="nav-menu-container">
+        <ul class="nav-menu">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../about-page.html">About</a></li>
+          <li><a href="../posts-page.html">Portfolio</a></li>
+        </ul>
+      </nav><!-- #nav-menu-container -->
+
+    </div>
+  </header><!-- End Header -->
+
+  <main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <section class="breadcrumbs">
+
+      <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+          <h1>Data Cleaning: Austin Animal Shelter Dataset</h1>
+        </div>
+      </div>
+
+    </section><!-- End Breadcrumbs -->
+
+
+    <section class="inner-page pt-4">
+      <div class="container">
+
+        <p>
+          In 2018, I worked as a volunteer at the Austin Pet Alive (APA) 
+          animal center to learn more about animals and help APA with its mission.
+          After a few months of working at the APA, I investigated the statistical 
+          data throughout U.S. animal shelters to understand animals' adoption rates.
+          I recognized that approximately 6.5 million animals enter U.S. shelters  
+           (SEE <a href = "https://www.aspca.org/animal-homelessness/shelter-intake-and-surrender/pet-statistics"> SPCA Statistic</a>) 
+           each year, of which 3.2 million are adopted, and 1.5 million are euthanized (670,000 dogs and 860,000 cats).<br>
+
+           The number of euthanized animals has significantly declined since 2011, 
+           mainly due to increased social awareness regarding the necessity of adopting
+           pets from animal shelters and improving the return rates of spray animals to 
+           their owners. I realized that  I could contribute to this mission by adopting 
+           a new puppy called Shilo. Below is our picture together on a hike 
+           in Oahu island in Hawaii.</br>
+
+           <a href="#"><img src="../assets/img/blog/shilo.jpeg" alt="img"  class="center"></a> </br>
+
+           Since I spent most of my Ph.D. program on statistical analyses of pharmaceutical 
+           industries, I became interested in using my statistical knowledge in investigating 
+           the data from U.S. Animal Shelters.  I looked for several datasets for my objective.
+           I found that the Austin Animal Shelter dataset is publicly available, and
+           It is possible to perform many valuable analyses on it, including data cleaning, 
+           descriptive statistics, and machine learning. Today, I focus on Data cleaning, and 
+           I plan to publish another article about descriptive statistics and machine learning.
+           There are two main datasets that I am going to use, animal intake 
+           (SEE this <a href = "https://data.austintexas.gov/Health-and-Community-Services/Austin-Animal-Center-Intakes/wter-evkm"> link</a>)
+           and animal outcome (SEE this <a href = "https://data.austintexas.gov/Health-and-Community-Services/Austin-Animal-Center-Outcomes/9t4d-g238"> link </a>). 
+           In these datasets, I am looking to answer two main questions, i) how long does it take 
+           for an animal to get out of the shelter? ii) What would happen to an animal outcome 
+           (i.e., adopted, returned_to_owner, or euthanized)?<br>
+           The first step for me is to merge the two datasets and clean them for 
+           further analysis. The steps for the data cleaning process are,<br>
+
+
+        </p></br>
+           
+        <ul>
+            <li><a href="#1" class="btn-get-started scrollto">Uploading datasets and removing duplicates</a></li>
+            <li><a href="#2" class="btn-get-started scrollto">Merging two datasets</a></li>
+            <li><a href="#3" class="btn-get-started scrollto">Handling columns with both numerical and categorical variables</a></li>
+            <li><a href="#4" class="btn-get-started scrollto">Handling DateTime columns</a></li>
+            <li><a href="#5" class="btn-get-started scrollto">Handling missing values</a></li>
+            <li><a href="#6" class="btn-get-started scrollto">Data preprocessing with Pipeline</a></li>            
+        </ul></br>
+    
+
+        <h2 id="1">Uploading datasets and removing duplicates</h2></br>
+
+        <p> 
+          I upload the CVS datasets using pandas <a>read_csv</a>. I also remove the possible duplicated report based on their <a>Animal ID</a>.
+          <a>Intake dataset:</a>
+        </p></br>
+       
+<pre>
+  <code class="language-python">
+    #!/usr/bin/env python
+
+    # Import the libraries
+    import numpy as np
+    import pandas as pd
+    import matplotlib.pyplot as plt
+
+    # Load intake dataset
+    intake = pd.read_csv('../data/adoption/Austin_Animal_Center_Intake.csv')
+    intake = intake.drop_duplicates(['Animal ID'], keep='first')
+    intake.head()
+  </code>
+</pre> </br>
+
+        <iframe src="../assets/code/tables/animal_intake.html"  width="100%" height="400" 
+        name="targetframe" allowTransparency="false"
+        scrolling="yes" frameborder="0" 
+        title="Intake Dataset"
+        style="height:200px;width:100%;"  >
+        </iframe></br>
+
+        <p> 
+          <a>Outcome Dataset</a>
+        </p></br>
+
+<pre>
+  <code class="language-python">
+    #!/usr/bin/env python
+
+    # Load intake dataset
+    outcome = pd.read_csv('../data/adoption/Austin_Animal_Center_Outcomes.csv')
+    outcome = pd.drop_duplicates(['Animal ID'], keep='First')
+    outcome.head()
+  </code>
+</pre></br>
+
+        <iframe src="../assets/code/tables/animal_outcome.html"  width="100%" height="400" 
+        name="targetframe" allowTransparency="false"
+        scrolling="yes" frameborder="0" 
+        title="Intake Dataset"
+        style="height:200px;width:100%;"  >
+        </iframe></br>
+        
+        <h2 id="2">Merging Intake and Outcome Datasets</h2></br>
+
+        <p>
+          To analyze these datasets, I need to merge them into a single dataset based on 
+          the animal's unique ID. For this purpose, I use the pandas merge function to do it,
+        </p></br>
+
+<pre>
+  <code class="language-python">
+    # Merge intake and outcome datasets
+    merge_data = pd.merge(intake,outcome, on = 'Animal ID')
+    merge_data.head()
+  </code>
+</pre></br>
+
+        <iframe src="../assets/code/tables/animal_merge_data.html"  width="100%" height="400" 
+        name="targetframe" allowTransparency="false"
+        scrolling="yes" frameborder="0" 
+        title="Intake Dataset"
+        style="height:200px;width:100%;"  >
+        </iframe></br>
+
+        <p>
+          The merged dataset has 105337 rows and 23 columns. I want to rename the columns to 
+          obtain a better view of the dataset. Besides, not all columns in the dataset are 
+          going to be used in my analysis. I will change the column names using the pandas 
+          DataFrame column argument. <br>
+          The columns of merge_data before changing their names,
+        </p></br>
+
+<pre>
+  <code class="language-python">
+    Index(['Animal ID', 'Name_x', 'DateTime_x', 'MonthYear_x', 'Found Location',
+       'Intake Type', 'Intake Condition', 'Animal Type_x', 'Sex upon Intake',
+       'Age upon Intake', 'Breed_x', 'Color_x', 'Name_y', 'DateTime_y',
+       'MonthYear_y', 'Date of Birth', 'Outcome Type', 'Outcome Subtype',
+       'Animal Type_y', 'Sex upon Outcome', 'Age upon Outcome', 'Breed_y',
+       'Color_y'],
+        dtype='object')
+  </code>
+</pre></br>
+
+        <p> 
+          The new names are,
+        </p></br>
+
+<pre>
+  <code class="language-python">
+    Index(['Pet_ID', 'Name_Intake', 'DateTime_Intake', 'MonthYear_Intake',
+    'Found_Location', 'Intake_Type', 'Intake_Condition',
+    'Animal_Type_Intake', 'Sex_Upon_Intake', 'Age_upon_Intake',
+    'Breed_Intake', 'Color_Intake', 'Name_Outcome', 'DateTime_Outcome',
+    'MonthYear_Outcome', 'Date_of_Birth', 'Outcome_Type', 'Outcome_Subtype',
+    'Animal_Type_Outcome', 'Sex_Upon_Outcome', 'Age_Upon_Outcome',
+    'Breed_Outcome', 'Color_Outcome'],
+     dtype='object')
+  </code>
+</pre></br>
+
+        <p>
+          The columns of merge_data have some repeated values such as Name, Type, Sex, etc. 
+          Therefore, I need fewer columns in my dataset, and I pick those assigned as the outcome.
+           The reason for choosing the outcome values is that there is more information about an 
+           animal when it moves out of the shelter. I select the following columns for my analysis,
+        </p></br>
+
+        <ul class="list">
+          <li><a>Pet_ID </a> - Unique ID of pet</li>
+          <li> <a>Name</a> - Name of pet at outcome </li>
+          <li><a>Pet_Type</a> - Type of pet at outcome</li>
+          <li><a>Sex</a> - Sex of pet at outcome</li>
+          <li><a>Breed</a> - Breed of pet</li>
+          <li><a>Color</a> - Color of pet</li>
+          <li><a>Found_Location</a> - Found location of pet before entered the center</li>
+          <li><a>Intake_Type</a> - Circumstances bringing the pet to the center</li>
+          <li><a>Intake_Condition</a> - Health condition of pet when entered the center</li>
+          <li><a>Age_upon_Intake_Days</a> - Age of pet when entered the center (days)</li>
+          <li><a>Age_upon_Outcome_Days</a> - Age of pet when leaves the center (days)  </li>
+          <li> <a>DateTime_Intake</a> - Date and time of arival to the center</li>
+          <li> <a>DateTime_Intake</a> - date and time of leaving the center</li>
+          <li> <a>Outcome Type</a> - State of pet at the time of recording the outcome</li>
+        </ul></br>
+
+        <p>
+          In the following, I attached the code for selecting the above columns and renaming them.
+        </p>/<br>
+
+<pre>
+  <code class="language-python">
+    #!/usr/bin/env python
+
+    # Constructing new dataset from the exsiting data set
+    new_data = merge_data[['Pet_ID', 'Name_Outcome','Animal_Type_Outcome', 
+                          'Sex_Upon_Outcome','Breed_Outcome', 'Color_Outcome',
+                          'Found_Location','Intake_Type', 
+                          'Intake_Condition','Age_upon_Intake','Age_Upon_Outcome',
+                          'DateTime_Intake','DateTime_Outcome', 'Outcome_Type']]
+
+    # Changing the column names to more convinient names
+    new_data.columns = [['Pet_ID', 'Name','Pet_Type','Sex',
+                          'Breed', 'Color',
+                            'Found_Location','Intake_Type', 
+                          'Intake_Condition','Age_upon_Intake','Age_Upon_Outcome',
+                          'DateTime_Intake','DateTime_Outcome', 'Outcome_Type']]
+
+    new_data.head()
+  </code>
+</pre></br>  
+
+        <iframe src="../assets/code/tables/animal_reduceddata.html"width="100%" height="400" 
+          name="targetframe" allowTransparency="false"
+          scrolling="yes" frameborder="0" 
+          title="Intake Dataset"
+          style="height:200px;width:100%;">
+        </iframe></br>
+
+        <h2 id="3"> Handling columns with both numerical and categorical variables</h2></br>
+
+        <p>
+          Now that I have my new dataset with the columns that I like, I need to perform data 
+          cleaning. The first steps is to convert the columns <a>Age_Upon_Intake</a> and 
+          <a>Age_Upon_Outcome</a> to number of days. For this purpose, I define a function 
+          that iterates through each column value and split the text from numerical values. 
+          Next, I multiple the numerical portion to 365 for the year, 30 for the month, 
+          and 7 for the week to convert each value to days. Below is the function 
+          <a>return_days(x)</a> which takes one argument the age of the pet and checks 
+          the argument for the strings  'year(s)', 'month(s)', 'week(s)', or 'days'. 
+          By using <a>.rsplit</a> method it splits the number portions from string portion.
+        </p></br>
+
+<pre>
+  <code class="language-python">
+    # define a function to return age of animals in days
+    def return_days(x):
+        
+        if isinstance(x,str) and 'years' in x:
+            return float(x.rsplit('years')[0])*365
+        
+        elif isinstance(x,str) and 'year' in x:
+            return float(x.rsplit('year')[0])*365
+        
+        elif isinstance(x,str) and 'months' in x:
+            return float(x.rsplit('months')[0])*30
+    
+        elif isinstance(x,str) and 'month' in x:
+            return float(x.rsplit('month')[0])*30
+        
+        elif isinstance(x,str) and 'weeks' in x:
+            return float(x.rsplit('weeks')[0])*7
+        
+        elif isinstance(x,str) and 'week' in x:
+            return float(x.rsplit('week')[0])*365
+    
+        elif isinstance(x,str) and 'days' in x:
+            return float(x.rsplit('days')[0])
+        else:
+            return 'NaN'
+  </code>
+</pre> <br>
+
+        <p>
+          Now I can use panadas <a>.apply()</a> method to apply this function on 
+          each argument the age columns in my dataset. I will also change the names 
+          of the columns to '..._Days',
+        </p></br>
+
+<pre>
+  <code class="language-python">
+    # Convert Age_Upon_Intake, col index: 9
+    new_data.iloc[:,9]= new_data.iloc[:,9].apply(return_days)
+    
+    # Convert Age_Upon_Outcome, col index: 10
+    new_data.iloc[:,10]= new_data.iloc[:,10].apply(return_days)
+    
+    
+    new_data.columns = ['Pet_ID', 'Name','Pet_Type','Sex',
+                           'Breed', 'Color','Found_Location','Intake_Type', 
+                           'Intake_Condition','Age_Upon_Intake_Days','Age_Upon_Outcome_Days',
+                           'DateTime_Intake','DateTime_Outcome', 'Outcome_Type']
+    
+    new_data['Age_Upon_Intake_Days']  =new_data['Age_Upon_Intake_Days'].astype(float)
+    new_data['Age_Upon_Outcome_Days']  =new_data['Age_Upon_Outcome_Days'].astype(float)
+    new_data.info()
+
+    output:
+      Int64Index: 105337 entries, 0 to 105336
+      Data columns (total 14 columns):
+      #   Column                 Non-Null Count   Dtype  
+      ---  ------                 --------------   -----  
+      0   Pet_ID                 105337 non-null  object 
+      1   Name                   68549 non-null   object 
+      2   Pet_Type               105337 non-null  object 
+      3   Sex                    105334 non-null  object 
+      4   Breed                  105337 non-null  object 
+      5   Color                  105337 non-null  object 
+      6   Found_Location         105337 non-null  object 
+      7   Intake_Type            105337 non-null  object 
+      8   Intake_Condition       105337 non-null  object 
+      9   Age_Upon_Intake_Days   0 non-null       float64
+      10  Age_Upon_Outcome_Days  0 non-null       float64
+      11  DateTime_Intake        105337 non-null  object 
+      12  DateTime_Outcome       105337 non-null  object 
+      13  Outcome_Type           105330 non-null  object
+  </code>
+</pre></br>
+
+        <h2 id="4"> Handling DateTime columns</h2></br>
+
+        <p>
+          In this section, I would like to combine the columns <a>DateTime_Intake</a> and <a>DateTime_Outcome</a> 
+          to a single column representing the number of days each animal stays in the center. For this purpose, 
+          I extract the date portion of each row using pandas Dataframe <a>pd.to_datetime()</a> and then subtract 
+          the two columns and extrac the number of days from it. I will add a new column to my DataFrame called 
+          <a>Days_in_Center</a> and remove <a>DateTime_Intake</a> and <a>DateTime_Outcome</a>. Below is the code that I used,
+        </p></br>
+
+<pre>
+  <code class="language-python">
+    # Convert the DateTime_Intake to only date
+    new_data['DateTime_Intake'] = pd.to_datetime(new_data['DateTime_Intake']).dt.date 
+    
+    # Convert the DateTime_Outcome to only date
+    new_data['DateTime_Outcome'] = pd.to_datetime(new_data['DateTime_Outcome']).dt.date 
+    
+    # Compute the number of days each animal stays in the shelter
+    new_data['Days_in_Center'] = (new_data['DateTime_Outcome'] - new_data['DateTime_Intake']).dt.days
+    
+    # drop the DateTime_Intak and DateTime_Outcome
+    new_data = new_data.drop(columns = ['DateTime_Intake','DateTime_Outcome'])
+    
+    # Show the final dataset
+    new_data.head()
+  </code>
+
+</pre></br>
+
+        <p>
+          The new DataFrame is shown below,
+        </p></br>
+
+        <iframe src="../assets/code/tables/animal_age_datetime_fixed.html"width="100%" height="400" 
+          name="targetframe" allowTransparency="false"
+          scrolling="yes" frameborder="0" 
+          title="Intake Dataset"
+          style="height:200px;width:100%;">
+        </iframe></br>        
+
+        <h2 id="5"> Handling missing values</h2></br>
+
+        <p>
+          Link any other dataset, the Austin Animal Shelter Dataset has many missing values. 
+          Let's check the number of missing values in each column. The pandas DataFrame <a>.isna()</a> return 
+          if a column has missing value and if I use <a>.isna().sum()</a> it returns the total number of missing values in 
+          columns of a DataFrame.
+        </p></br> 
+        
+<pre>
+  <code class="language-python">
+    # number of missing values in each column
+    new_data.isna().sum()
+
+    output:
+
+      Pet_ID                  0
+      Name                36788
+      Pet_Type                0
+      Sex                     3
+      Breed                   0
+      Color                   0
+      Found_Location          0
+      Intake_Type             0
+      Intake_Condition        0
+      Age_Upon_Intake         0
+      Age_Upon_Outcome        0
+      Outcome_Type            7
+      Days_in_Center          0
+  </code>
+</pre><br>
+
+        <p>
+          Columns with missing values are Name, Sex, and Outcome_Type, all of which are categorical.
+          To fix these values, I  use <a>SimpleImputer </a> from <a>sklearn</a> library to fill out
+          the missing values with the most frequent values. The number of missing values in Name is
+          36788, which has too many missing values and won't significantly affect the outcome. I can 
+          drop the Name column. However, I won't do it now and keep it for later analysis. For the 
+          first step, I  get the indices for numerical and categorical variables.
+        </p></br>
+
+<pre>
+  <code class="language-python">
+    # Getting columns with numerical values
+    numerical_cols = new_data.select_dtypes(include = np.number).columns
+    print("Numerical columns are: ",numerical_cols)
+    
+    # Getting columns with categorical values
+    categorical_cols = new_data.select_dtypes(include = 'object').columns
+    print("\n Categorical columns are: ",categorical_cols)
+
+    output:
+    Numerical columns are:  Index(['Age_Upon_Intake_Days', 
+                                  'Age_Upon_Outcome_Days', 
+                                  'Days_in_Center'], 
+                                  dtype='object')
+
+    Categorical columns are:  Index(['Pet_ID', 'Name', 'Pet_Type',
+                                     'Sex', 'Breed', 'Color', 
+                                     'Found_Location','Intake_Type', 
+                                     'Intake_Condition', 'Outcome_Type'],
+                                      dtype='object')
+  </code>
+</pre></br>
+
+        <p>
+          Next, I apply SimpleImputer for both types of columns just for practice.
+           I replace the missing values in numerical columns with each column's mean 
+           and categorical variables with the most frequent value. Below is the code that I used,
+        </p></br>
+
+<pre>
+  <code class="language-python">
+    # Impore simple imputer from sklearn
+    from sklearn.impute import SimpleImputer
+
+    # Applying SimpleImputer for numerical columns
+    imputer = SimpleImputer(strategy = 'mean')
+    new_data[numerical_cols] = imputer.fit_transform(new_data[numerical_cols])
+
+    # Applying SimpleImputer for categorical columns
+    imputer = SimpleImputer(strategy = 'most_frequent')
+    new_data[categorical_cols] = imputer.fit_transform(new_data[categorical_cols])
+
+    print(new_data.isna().sum())
+
+    output:
+      Pet_ID                   0
+      Name                     0
+      Pet_Type                 0
+      Sex                      0
+      Breed                    0
+      Color                    0
+      Found_Location           0
+      Intake_Type              0
+      Intake_Condition         0
+      Age_Upon_Intake_Days     0
+      Age_Upon_Outcome_Days    0
+      Outcome_Type             0
+      Days_in_Center           0
+  </code>
+</pre></br>
+
+        <h2 id="6"> Data preprocessing with Pipeline</h2><br>
+
+        <p>
+          In a typical machine learning workflow, a data scientist needz to apply data transformations, 
+          like imputation and scaling, at least twice. First on the training dataset with, when preparing 
+          the data to training the model, and again on any new data. Scikit-learn Pipeline is a tool that 
+          simplifies this process by enforcing the implementation and order of data processing steps.
+
+          I build a pipeline to impute the missing values with the mean using sklearn's SimpleImputer,
+           and scale the numerical features to have similar orders of magnitude by bringing them into the 
+           0-1 range with sklearn's <a>MinMaxScaler</a>.
+        </p></br>
+
+
+
+
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer class="footer">
+    <div class="copyrights">
+      <div class="container">
+        <p>&copy; Copyrights Ali Shahmohammadi. All rights reserved.</p>
+        <div class="credits">
+          Designed by <a href="https://alishahmohammadi.github.io/">Ali Shahmohammadi</a>
+        </div>
+      </div>
+    </div>
+
+  </footer><!-- End  Footer -->
+
+  <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/jquery/jquery.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/jquery.easing/jquery.easing.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/vendor/modal-video/js/modal-video.min.js"></script>
+  <script src="assets/vendor/owl.carousel/owl.carousel.min.js"></script>
+  <script src="assets/vendor/superfish/superfish.min.js"></script>
+  <script src="assets/vendor/hoverIntent/hoverIntent.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+
+</body>
+
+</html>

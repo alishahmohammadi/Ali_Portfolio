@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  width: 90%;
+  
+}
+
+th, td {
+  padding: 10px;
+  text-align: center;
+  font-size: 14px;
+  width: 100%;
+  font-family: 'Arial';
+}
+tr:hover {background-color: #f5f5f5;}
+
+</style>
+</head>
+
+<body>
+
+  <table>
+    <thead>
+      <tr style="text-align: right;">
+        <th></th>
+        <th>Animal ID</th>
+        <th>Name</th>
+        <th>DateTime</th>
+        <th>MonthYear</th>
+        <th>Date of Birth</th>
+        <th>Outcome Type</th>
+        <th>Outcome Subtype</th>
+        <th>Animal Type</th>
+        <th>Sex upon Outcome</th>
+        <th>Age upon Outcome</th>
+        <th>Breed</th>
+        <th>Color</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th>0</th>
+        <td>A794011</td>
+        <td>Chunk</td>
+        <td>05/08/2019 06:20:00 PM</td>
+        <td>05/08/2019 06:20:00 PM</td>
+        <td>05/02/2017</td>
+        <td>Rto-Adopt</td>
+        <td>NaN</td>
+        <td>Cat</td>
+        <td>Neutered Male</td>
+        <td>2 years</td>
+        <td>Domestic Shorthair Mix</td>
+        <td>Brown Tabby/White</td>
+      </tr>
+      <tr>
+        <th>1</th>
+        <td>A776359</td>
+        <td>Gizmo</td>
+        <td>07/18/2018 04:02:00 PM</td>
+        <td>07/18/2018 04:02:00 PM</td>
+        <td>07/12/2017</td>
+        <td>Adoption</td>
+        <td>NaN</td>
+        <td>Dog</td>
+        <td>Neutered Male</td>
+        <td>1 year</td>
+        <td>Chihuahua Shorthair Mix</td>
+        <td>White/Brown</td>
+      </tr>
+      <tr>
+        <th>2</th>
+        <td>A720371</td>
+        <td>Moose</td>
+        <td>02/13/2016 05:59:00 PM</td>
+        <td>02/13/2016 05:59:00 PM</td>
+        <td>10/08/2015</td>
+        <td>Adoption</td>
+        <td>NaN</td>
+        <td>Dog</td>
+        <td>Neutered Male</td>
+        <td>4 months</td>
+        <td>Anatol Shepherd/Labrador Retriever</td>
+        <td>Buff</td>
+      </tr>
+      <tr>
+        <th>3</th>
+        <td>A674754</td>
+        <td>NaN</td>
+        <td>03/18/2014 11:47:00 AM</td>
+        <td>03/18/2014 11:47:00 AM</td>
+        <td>03/12/2014</td>
+        <td>Transfer</td>
+        <td>Partner</td>
+        <td>Cat</td>
+        <td>Intact Male</td>
+        <td>6 days</td>
+        <td>Domestic Shorthair Mix</td>
+        <td>Orange Tabby</td>
+      </tr>
+      <tr>
+        <th>4</th>
+        <td>A689724</td>
+        <td>*Donatello</td>
+        <td>10/18/2014 06:52:00 PM</td>
+        <td>10/18/2014 06:52:00 PM</td>
+        <td>08/01/2014</td>
+        <td>Adoption</td>
+        <td>NaN</td>
+        <td>Cat</td>
+        <td>Neutered Male</td>
+        <td>2 months</td>
+        <td>Domestic Shorthair Mix</td>
+        <td>Black</td>
+      </tr>
+      <tr>
+        <th>5</th>
+        <td>A680969</td>
+        <td>*Zeus</td>
+        <td>08/05/2014 04:59:00 PM</td>
+        <td>08/05/2014 04:59:00 PM</td>
+        <td>06/03/2014</td>
+        <td>Adoption</td>
+        <td>NaN</td>
+        <td>Cat</td>
+        <td>Neutered Male</td>
+        <td>2 months</td>
+        <td>Domestic Shorthair Mix</td>
+        <td>White/Orange Tabby</td>
+      </tr>
+      <tr>
+        <th>6</th>
+        <td>A684617</td>
+        <td>NaN</td>
+        <td>07/27/2014 09:00:00 AM</td>
+        <td>07/27/2014 09:00:00 AM</td>
+        <td>07/26/2012</td>
+        <td>Transfer</td>
+        <td>SCRP</td>
+        <td>Cat</td>
+        <td>Intact Female</td>
+        <td>2 years</td>
+        <td>Domestic Shorthair Mix</td>
+        <td>Black</td>
+      </tr>
+      <tr>
+        <th>7</th>
+        <td>A742354</td>
+        <td>Artemis</td>
+        <td>01/22/2017 11:56:00 AM</td>
+        <td>01/22/2017 11:56:00 AM</td>
+        <td>01/20/2010</td>
+        <td>Return to Owner</td>
+        <td>NaN</td>
+        <td>Cat</td>
+        <td>Neutered Male</td>
+        <td>7 years</td>
+        <td>Domestic Shorthair Mix</td>
+        <td>Blue/White</td>
+      </tr>
+      <tr>
+        <th>8</th>
+        <td>A681036</td>
+        <td>NaN</td>
+        <td>06/11/2014 05:11:00 PM</td>
+        <td>06/11/2014 05:11:00 PM</td>
+        <td>06/09/2014</td>
+        <td>Transfer</td>
+        <td>Partner</td>
+        <td>Cat</td>
+        <td>Intact Male</td>
+        <td>2 days</td>
+        <td>Domestic Shorthair Mix</td>
+        <td>Brown Tabby</td>
+      </tr>
+      <tr>
+        <th>9</th>
+        <td>A803149</td>
+        <td>*Birch</td>
+        <td>08/31/2019 04:26:00 PM</td>
+        <td>08/31/2019 04:26:00 PM</td>
+        <td>08/08/2019</td>
+        <td>Transfer</td>
+        <td>Partner</td>
+        <td>Cat</td>
+        <td>Intact Male</td>
+        <td>3 weeks</td>
+        <td>Domestic Shorthair</td>
+        <td>Brown Tabby</td>
+      </tr>
+    </tbody>
+  </table>
+
+</body>
