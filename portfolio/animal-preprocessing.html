@@ -45,8 +45,8 @@
       <nav id="nav-menu-container">
         <ul class="nav-menu">
           <li><a href="../index.html">Home</a></li>
-          <li><a href="../about-page.html">About</a></li>
-          <li><a href="../posts-page.html">Portfolio</a></li>
+          <!--<li><a href="../about-page.html">About</a></li>-->
+          <li><a href="../posts-page.html">Blog</a></li>
         </ul>
       </nav><!-- #nav-menu-container -->
 
@@ -519,21 +519,11 @@
   </code>
 </pre></br>
 
-        <h2 id="6"> Data preprocessing with Pipeline</h2><br>
-
         <p>
-          In a typical machine learning workflow, a data scientist needz to apply data transformations, 
-          like imputation and scaling, at least twice. First on the training dataset with, when preparing 
-          the data to training the model, and again on any new data. Scikit-learn Pipeline is a tool that 
-          simplifies this process by enforcing the implementation and order of data processing steps.
-
-          I build a pipeline to impute the missing values with the mean using sklearn's SimpleImputer,
-           and scale the numerical features to have similar orders of magnitude by bringing them into the 
-           0-1 range with sklearn's <a>MinMaxScaler</a>.
+          The dataset is now clean and ready to be use. The next step is to encode the categorical variables to numerical values 
+          and scale the numerical columns to have values with same scales. After that I can train regression models and machine 
+          learning algorithm which I will do it in next posts.
         </p></br>
-
-
-
 
       </div>
     </section>
