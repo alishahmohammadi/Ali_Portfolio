@@ -46,7 +46,7 @@
         <ul class="nav-menu">
           <li><a href="../index.html">Home</a></li>
           <!--<li><a href="../about-page.html">About</a></li>-->
-          <li><a href="../posts-page.html">Blog</a></li>
+          <li><a href="../blog.html">Blog</a></li>
         </ul>
       </nav><!-- #nav-menu-container -->
 
@@ -522,13 +522,134 @@
         <p>
           The dataset is now clean and ready to be use. The next step is to encode the categorical variables to numerical values 
           and scale the numerical columns to have values with same scales. After that I can train regression models and machine 
-          learning algorithm which I will do it in next posts.
+          learning algorithm which I will do it in next posts. Below I attached the python code for this section your review.
         </p></br>
+
+<pre>
+  <code class="language-python">
+  #!/usr/bin/env python
+
+  # Import the libraries
+  import numpy as np
+  import pandas as pd
+  import matplotlib.pyplot as plt
+
+  # Load intake dataset
+  intake = pd.read_csv('../data/adoption/Austin_Animal_Center_Intakes.csv')
+  intake = intake.drop_duplicates(['Animal ID'], keep='first')
+
+  # Load outcome data
+  outcome = pd.read_csv('../data/adoption/Austin_Animal_Center_Outcomes.csv')
+  outcome = outcome.drop_duplicates(['Animal ID'], keep='first')
+
+  # Merging the two datasets
+  merge_data= pd.merge(intake,outcome, on = 'Animal ID')
+
+  # Changing the column names for the merged dataset
+  merge_data.columns = ['Pet_ID', 'Name_Intake', 'DateTime_Intake', 'MonthYear_Intake', 'Found_Location',
+        'Intake_Type', 'Intake_Condition', 'Animal_Type_Intake', 'Sex_Upon_Intake',
+        'Age_Upon_Intake', 'Breed_Intake', 'Color_Intake', 'Name_Outcome', 'DateTime_Outcome',
+        'MonthYear_Outcome', 'Date_of_Birth', 'Outcome_Type', 'Outcome_Subtype',
+        'Animal_Type_Outcome', 'Sex_Upon_Outcome', 'Age_Upon_Outcome', 'Breed_Outcome',
+        'Color_Outcome']
+
+  # Constructing new dataset from the exsiting data set
+  new_data = merge_data[['Pet_ID', 'Name_Outcome','Animal_Type_Outcome', 
+                        'Sex_Upon_Outcome','Breed_Outcome', 'Color_Outcome',
+                        'Found_Location','Intake_Type', 
+                        'Intake_Condition','Age_Upon_Intake','Age_Upon_Outcome',
+                        'DateTime_Intake','DateTime_Outcome', 'Outcome_Type']]
+
+  # Changing the column names to more convinient names
+  new_data.columns = ['Pet_ID', 'Name','Pet_Type','Sex',
+                        'Breed', 'Color','Found_Location','Intake_Type', 
+                        'Intake_Condition','Age_Upon_Intake','Age_Upon_Outcome',
+                        'DateTime_Intake','DateTime_Outcome', 'Outcome_Type']
+
+
+  # A function to return age of animals in days
+  def return_days(x):
+      
+      if isinstance(x,str) and 'years' in x:
+          
+          return float((x.rsplit('years')[0]))*365
+      
+          
+      if isinstance(x,str) and 'year' in x:
+          return float((x.rsplit('year')[0]))*365
+      
+      
+      if isinstance(x,str) and 'months' in x:
+          return float((x.rsplit('months')[0]))*30
+      
+      if isinstance(x,str) and 'month' in x:
+          return float((x.rsplit('month')[0]))*30
+
+      
+      if isinstance(x,str) and 'weeks' in x:
+          return float((x.rsplit('weeks')[0]))*7
+      
+      if isinstance(x,str) and 'week' in x:
+          return float((x.rsplit('week')[0]))*7
+
+      else:
+          return 'NaN'
+
+  # Convert Age_Upon_Intake, col index: 9
+  new_data.iloc[:,9]= new_data.iloc[:,9].apply(return_days)
+
+  # Convert Age_Upon_Outcome, col index: 10
+  new_data.iloc[:,10]= new_data.iloc[:,10].apply(return_days)
+
+
+  new_data.columns = ['Pet_ID', 'Name','Pet_Type','Sex',
+                          'Breed', 'Color','Found_Location','Intake_Type', 
+                          'Intake_Condition','Age_Upon_Intake_Days','Age_Upon_Outcome_Days',
+                          'DateTime_Intake','DateTime_Outcome', 'Outcome_Type']
+
+  new_data['Age_Upon_Intake_Days']  =new_data['Age_Upon_Intake_Days'].astype(float)
+  new_data['Age_Upon_Outcome_Days']  =new_data['Age_Upon_Outcome_Days'].astype(float)
+
+
+  # Convert the DateTime_Intake to only date
+  new_data['DateTime_Intake'] = pd.to_datetime(new_data['DateTime_Intake']).dt.date 
+
+  # Convert the DateTime_Outcome to only date
+  new_data['DateTime_Outcome'] = pd.to_datetime(new_data['DateTime_Outcome']).dt.date 
+
+  # Compute the number of days each animal stays in the shelter
+  new_data['Days_in_Center'] = (new_data['DateTime_Outcome'] - new_data['DateTime_Intake']).dt.days
+
+  # drop the DateTime_Intak and DateTime_Outcome
+  new_data = new_data.drop(columns = ['DateTime_Intake','DateTime_Outcome'])
+
+  # Getting columns with numerical values
+  numerical_cols = new_data.select_dtypes(include = np.number).columns
+
+  # Getting columns with categorical values
+  categorical_cols = new_data.select_dtypes(include = 'object').columns
+  
+  # Impore simple imputer from sklearn
+  from sklearn.impute import SimpleImputer
+
+  # Applying SimpleImputer for numerical columns
+  imputer = SimpleImputer(strategy = 'mean')
+  new_data[numerical_cols] = imputer.fit_transform(new_data[numerical_cols])
+
+  # Applying SimpleImputer for categorical columns
+  imputer = SimpleImputer(strategy = 'most_frequent')
+  new_data[categorical_cols] = imputer.fit_transform(new_data[categorical_cols])
+
+  # Save final dataset in CSV
+  new_data.to_csv('Cleaned_Animal_Data.csv')
+                               
+  </code>
+</pre><br>
 
       </div>
     </section>
 
-  </main><!-- End #main -->
+</main><!-- End #main -->
 
   <!-- ======= Footer ======= -->
   <footer class="footer">
