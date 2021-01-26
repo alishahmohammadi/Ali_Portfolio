@@ -91,6 +91,7 @@ span {
 .container-full {
   padding-left: 0;
   padding-right: 0;
+  
 }
 
 .btn {
@@ -113,6 +114,7 @@ span {
 .fa {
   font-size: 13px;
 }
+
 
 /* Back to top button */
 .back-to-top {
@@ -204,11 +206,12 @@ table, th, td {
 --------------------------------------------------------------*/
 #hero {
   width: 100%;
-  height: calc(100vh - 40px);
-  background: url(../img/hero-bg.png) center bottom no-repeat;
+  height: calc(120vh - 40px);
+  
   background-size: 100%;
   position: relative;
   margin-top: 40px;
+  
 }
 
 @media (min-width: 1025px) {
@@ -228,6 +231,8 @@ table, th, td {
   align-items: center;
   flex-direction: column;
   text-align: center;
+  padding-top: 20px;
+
 }
 
 #hero h1 {
@@ -718,15 +723,15 @@ section {
 /* About Us Section
 --------------------------------*/
 .about-us {
-  background:#71c55d;
+  
   padding-top: 20px;
   padding-bottom: 20px;
   
 }
 #about-us img {
   max-width: 100%;
-  padding-top: 40px;
-  padding-bottom: 60px;
+  padding-top: 0px;
+  padding-bottom: 160px;
   margin-left: 0px;
   image-rendering: auto;
   image-resolution: 300 dpi;
@@ -734,13 +739,14 @@ section {
 }
 
 #about-us .about-content {
-  color: #fff;
-  padding-top: 0px;
+  color: #505050;
+  padding-top: 15px;
   font-size: 20px;
+  text-align: left;
 }
 
 #about-us .about-content h2 {
-  color: #fff;
+  color:  #505050;
   font-family: "roboto";
   font-size: 39px;
   font-weight: 100;
@@ -750,14 +756,14 @@ section {
 }
 
 #about-us .about-content span {
-  color: #fff;
+  color:  #505050;
   font-weight: 20;
   padding-right: 0;
   
 }
 
 #about-us .about-content ul li {
-  color: #fff;
+  color:  #505050;
   line-height: 36px;
 }
 
@@ -1163,6 +1169,8 @@ section {
   }
 }
 
+
+
 #blog .block-blog img {
   width: 100%;
 }
@@ -1182,9 +1190,11 @@ section {
   text-transform: capitalize;
   font-weight: normal;
   letter-spacing: 0;
-  font-size: 16px;
-  font-weight: 500;
+  font-size: 20px;
+  font-weight: 300;
 }
+
+
 
 #blog .block-blog .content-blog h4 a {
   color: #555;
@@ -1201,6 +1211,7 @@ section {
 #blog .block-blog .content-blog > span {
   float: left;
   font-size: 12px;
+
 }
 
 #blog .block-blog .content-blog a.readmore {
@@ -1518,5 +1529,7 @@ section {
 }
 
 
-
+/*--------------------------------------------------------------
+# Research
+--------------------------------------------------------------*/
 
