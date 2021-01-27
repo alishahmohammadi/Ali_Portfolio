@@ -44,9 +44,10 @@
 
       <nav id="nav-menu-container">
         <ul class="nav-menu">
-          <li><a href="../index.html">Home</a></li>
-          <!--<li><a href="../about-page.html">About</a></li>-->
-          <li><a href="../blog.html">Blog</a></li>
+          <li ><a href="../index.html">About Me</a></li>
+          <li ><a href="../research.html">Research</a></li>
+          <li ><a href="../blog.html">Blog</a></li>
+          <li><a href="../contact.html">Contact</a></li>
         </ul>
       </nav><!-- #nav-menu-container -->
 
@@ -74,21 +75,42 @@
           In my previous post (link <a href="#Data_Cleaninag_Shelter_Dataset.html">here</a>) I performed a
           detailed data cleaning for Austin Animal Shelter Dataset. No that my dataset is clean and ready 
           for further analyses, I would like tos investigate the statistical fact about my data thorguh use of data visualization and data analytics. 
-          Below is the interactive bar plot for the categorical variables. 
-        </p></br>
-           
-        <ul>
-            <li><a href="#1" class="btn-get-started scrollto"></a></li>         
-        </ul></br>
+          Below is the interactive bar plot for the categorical variables that their number of unique values are less than 50 which includes, Pet_type, 
+          Sex, Intake_Type, Intake_condition and Outcome_type. 
+        </p>
 
-        <iframe src="../assets/code/figures/bar_plots.html"width="100%" height="1000" 
+          <iframe src="../assets/code/figures/bar_plots.html" 
           name="targetframe" allowTransparency="false"
-          scrolling="yes" frameborder="0" 
+          scrolling="no" frameborder="0" 
           title="Intake Dataset"
-          style="height:200px;width:100%;">
-        </iframe></br> 
+          style="height:400px; width:100%; align-self: center; padding-bottom: 0px;">
+        </iframe> 
+
 
       </div>
+    </section>
+
+    <section class= "inner-page pt-4">
+      <div class="container">
+        <p>
+          I am only interested in dogs and cats and will drop 
+          the rows corresponds to other type of animals. Beside, 
+          I am looking for animals that their Sex are known, and are delivered to 
+          shelter as Stray, Owner Surrender or Public assist. For their intake conditions, 
+          I will only consider those that are normal, Injured or Sick and finally, 
+          I only considered the outcome types that are Adoption, Return to Owner or Euthanasia.
+        </p>
+
+          <iframe src="../assets/code/figures/removed_rows.html" 
+          name="targetframe" allowTransparency="false"
+          scrolling="no" frameborder="0" 
+          title="Intake Dataset"
+          style="height:400px; width:100%; align-self: center; align-items: center;">
+        </iframe>
+
+
+      </div>
+
     </section>
 
 </main><!-- End #main -->
