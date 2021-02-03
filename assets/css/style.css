@@ -131,7 +131,7 @@ span {
   transition: background 0.5s;
 }
 
-@media (max-width: 768px) {
+@media all and (orientation: portrait) {
   .back-to-top {
     bottom: 15px;
   }

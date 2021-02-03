@@ -74,7 +74,7 @@
         <p>
           In my previous post (link <a href="#Data_Cleaninag_Shelter_Dataset.html">here</a>) I performed a
           detailed data cleaning for Austin Animal Shelter Dataset. No that my dataset is clean and ready 
-          for further analyses, I would like tos investigate the statistical fact about my data thorguh use of data visualization and data analytics. 
+          for further analyses, I would like to investigate statistical facts about the Austin animal shelter dataset by using data visualization. 
           Below is the interactive bar plot for the categorical variables that their number of unique values are less than 50 which includes, Pet_type, 
           Sex, Intake_Type, Intake_condition and Outcome_type. 
         </p>
@@ -94,21 +94,27 @@
       <div class="container">
         <p>
           I am only interested in dogs and cats and will drop 
-          the rows corresponds to other type of animals. Beside, 
-          I am looking for animals that their Sex are known, and are delivered to 
-          shelter as Stray, Owner Surrender or Public assist. For their intake conditions, 
-          I will only consider those that are normal, Injured or Sick and finally, 
-          I only considered the outcome types that are Adoption, Return to Owner or Euthanasia.
+          the rows corresponds to other type of animals. 
         </p>
 
-          <iframe src="../assets/code/figures/removed_rows.html" 
+          <iframe src="../assets/code/figures/only_dog_cat_pie_plot.html" 
           name="targetframe" allowTransparency="false"
           scrolling="no" frameborder="0" 
           title="Intake Dataset"
           style="height:400px; width:100%; align-self: center; align-items: center;">
         </iframe>
 
-
+        <p>
+          Now if you look at the animal Sex column you will find that there are 5 varaibles,
+           Neutered Male, Spayed Female, Intact Male/Female and Unknow. I am only interested 
+           in pets with known Sex value. Also, I will make the two comlumns out of the Sex column. 
+           A column Neutered_Spayed that only has Yes or No values and Column Sex that is Male or Female.
+        </p>
+        Beside, 
+        I am looking for animals that their Sex are known, and are delivered to 
+        shelter as Stray, Owner Surrender or Public assist. For their intake conditions, 
+        I will only consider those that are normal, Injured or Sick and finally, 
+        I only considered the outcome types that are Adoption, Return to Owner or Euthanasia.
       </div>
 
     </section>
