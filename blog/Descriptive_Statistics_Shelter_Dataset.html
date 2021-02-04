@@ -72,12 +72,57 @@
       <div class="container">
 
         <p>
-          In my previous post (link <a href="#Data_Cleaninag_Shelter_Dataset.html">here</a>) I performed a
-          detailed data cleaning for Austin Animal Shelter Dataset. No that my dataset is clean and ready 
-          for further analyses, I would like to investigate statistical facts about the Austin animal shelter dataset by using data visualization. 
-          Below is the interactive bar plot for the categorical variables that their number of unique values are less than 50 which includes, Pet_type, 
-          Sex, Intake_Type, Intake_condition and Outcome_type. 
-        </p>
+          In my previous post (link <a href="Data_Cleaninag_Shelter_Dataset.html"> here </a>) I performed a detailed data cleaning for Austin Animal Shelter Dataset. Now that my dataset is clean and ready for further analyses, I would like to investigate statistical facts about the Austin animal shelter dataset using data visualization. Below is the interactive bar plot for the categorical variables whose number of unique values are less than 50 which includes, Pet_type, 
+          Sex, Intake_Type, Intake_condition and Outcome_type. Below is the pyhton code:
+        </p><br>
+
+  <pre>
+    <code class='language-python'>
+      #! usr/bin/env python
+
+      # Import the libraries
+      import numpy as np
+      import pandas as pd
+      import matplotlib.pyplot as plt
+      import plotly.graph_objects as go
+      from datetime import datetime
+      import plotly.express as px
+      import plotly
+      
+      
+      # Load the dataset 
+      data = pd.read_csv('Cleaned_Animal_Data.csv', index_col=[0])
+      data.head()
+      
+      # Count the number of unique values in each categorical columns and check if it is less that 50
+      value_count = {}
+      cat_cols = data.select_dtypes(include=object).columns       
+      cols = []
+      for c in cat_cols:
+          if len(data[c].value_counts())<50:
+              value_count[c] = data[c].value_counts()
+              
+      # Plot interactibe plot using plotyly
+      linecolors = ['blue','red','green','purple','black','orange', 'gray']
+      fig = go.Figure(go.Bar(x=value_count[c].index, y=value_count[c]))
+      
+      
+      
+      my_buttons = [dict(args = [{'x':[value_count[c].index],'y': [ value_count[c] ],'marker.color' : linecolors[k]}],
+                         label = c) for k, c in enumerate(cols)]
+      
+      fig.update_layout(width=800, height=400,
+                       updatemenus=[dict(active=4,
+                                         x= 1, y=1, 
+                                         xanchor='left', 
+                                         yanchor='top',
+                                         buttons=my_buttons)]) 
+      
+      
+      fig.show()
+    </code>
+  </pre>
+
 
           <iframe src="../assets/code/figures/bar_plots.html" 
           name="targetframe" allowTransparency="false"
@@ -93,8 +138,7 @@
     <section class= "inner-page pt-4">
       <div class="container">
         <p>
-          I am only interested in dogs and cats and will drop 
-          the rows corresponds to other type of animals. 
+          I am only interested in dogs and cats and will drop the rows corresponds to other types of animals. 
         </p>
 
           <iframe src="../assets/code/figures/only_dog_cat_pie_plot.html" 
@@ -105,16 +149,108 @@
         </iframe>
 
         <p>
-          Now if you look at the animal Sex column you will find that there are 5 varaibles,
-           Neutered Male, Spayed Female, Intact Male/Female and Unknow. I am only interested 
-           in pets with known Sex value. Also, I will make the two comlumns out of the Sex column. 
-           A column Neutered_Spayed that only has Yes or No values and Column Sex that is Male or Female.
+          If you look at the animal Sex column, you will find five variables, Neutered Male, Spayed Female, Intact Male/Female, and Unknown. I am only interested in pets with known Sex. As such, I will drop the animal with Unknown Sexs. Also, I will convert the Sex column into two separate columns: 1-Neutered_Spayed: which only has Yes or No values; 2-Sex: that are either Male or Female.
         </p>
-        Beside, 
-        I am looking for animals that their Sex are known, and are delivered to 
-        shelter as Stray, Owner Surrender or Public assist. For their intake conditions, 
-        I will only consider those that are normal, Injured or Sick and finally, 
-        I only considered the outcome types that are Adoption, Return to Owner or Euthanasia.
+<pre>
+  <code class="language-python">
+    # Remove unwanted rows
+    data = data[data.Sex !='Unknown']
+    
+    #Convert Sex columns into two columns
+    data[['Neutered_Spayed', 'Sex']]= data.Sex.str.split(expand = True)   
+    data.head()
+
+  </code>
+</pre>
+
+        <iframe src="../assets/code/tables/sex_into_two.html"  width="100%" height="400" 
+        name="targetframe" allowTransparency="false"
+        scrolling="yes" frameborder="0" 
+        title="Intake Dataset"
+        style="height:400px;width:100%;"  >
+        </iframe></br>
+
+        <p>
+          Neutered_Spayed has three values "Neutered", "Spayed", and "Intacct". I will convert Neutered or spayed to Yes and Intact to No for more straightforward analysis.
+        </p>
+
+<pre>
+  <code class="language-python">
+    # Neutyred Spayed --> Yes, Intact --> No
+    data.loc[(data.Neutered_Spayed == 'Neutered'),'Neutered_Spayed'] = 'Yes'
+    data.loc[(data.Neutered_Spayed == 'Spayed'),'Neutered_Spayed'] = 'Yes'
+    data.loc[(data.Neutered_Spayed == 'Intact'),'Neutered_Spayed'] = 'No'
+    
+
+    print(data[['Sex']].value_counts(),'\n')
+    print(data[['Neutered_Spayed']].value_counts())
+
+
+    Output:
+      Sex   
+      Male      48624
+      Female    45702
+      dtype: int64 
+      
+      Neutered_Spayed
+      Yes                66811
+      No                 27515
+      dtype: int64
+
+  </code>
+</pre>
+
+        <p>
+          For the intake type, I will only consider those that are stray or surrendered by their owner,
+        </p>
+<pre>
+  <code class="language-python">
+    # Keep rwos with Stray or Owner Surrender for Intake type
+    df3 = data[data.Intake_Type == 'Stray']
+    df4 = data[data.Intake_Type == 'Owner Surrender']
+    data = pd.concat([df3,df4], axis = 0)
+
+    value_count = data.Intake_Type.value_counts()
+
+    fig = px.pie(values=value_count, names=value_count.index, title='Intake Type', color=  value_count.index,           
+                color_discrete_map={'Stray':'darkred',
+                                    'Owner Surrender':'blue'})
+    fig.show()
+  </code>
+</pre>
+
+<iframe src="../assets/code/figures/intake_type_pie_plot.html" 
+name="targetframe" allowTransparency="false"
+scrolling="no" frameborder="0" 
+title="Intake Dataset"
+style="height:400px; width:100%; align-self: center; align-items: center;">
+</iframe>
+       
+<p>
+  For Intake_Condition, I consider the normal conditions and sick conditions. Those that are injured are considered sick,
+</p>
+
+<pre>
+  <code class="language-python">
+    # Convert the intake conditon
+    data.loc[(data.Intake_Condition == 'Injured'),'Intake_Condition'] = 'Sick'
+    df5 = data[data.Intake_Condition == 'Normal']
+    df6 = data[data.Intake_Condition == 'Sick']
+    data = pd.concat([df5,df6], axis = 0)
+  </code>
+</pre>
+
+<p>
+  Finally, I look for two values for the Outcome type, either the animal is adopted or not. Therefore, Those that are adopted or returned to their owners are considered as Yes. Those that are o.transfered or Euthanasia are considered as No. The column name is also changed to Adopted. This will results in final steps in preprocessing the categorial variables.
+</p>
+
+<iframe src="../assets/code/figures/final_categorical_plot.html" 
+name="targetframe" allowTransparency="false"
+scrolling="no" frameborder="0" 
+title="Intake Dataset"
+style="height:400px; width:100%; align-self: center; align-items: center;">
+</iframe><br><br>
+
       </div>
 
     </section>
