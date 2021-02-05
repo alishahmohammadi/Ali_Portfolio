@@ -241,7 +241,7 @@ style="height:400px; width:100%; align-self: center; align-items: center;">
 </pre>
 
 <p>
-  Finally, I look for two values for the Outcome type, either the animal is adopted or not. Therefore, Those that are adopted or returned to their owners are considered as Yes. Those that are o.transfered or Euthanasia are considered as No. The column name is also changed to Adopted. This will results in final steps in preprocessing the categorial variables.
+  I consider only two values for the Outcome type, either the animal is adopted or not. Therefore, Those that are adopted or returned to their owners are considered as Yes. Those that are o.transfered or Euthanasia are considered as No. The column name is also changed to Adopted.
 </p>
 
 <iframe src="../assets/code/figures/final_categorical_plot.html" 
@@ -251,6 +251,26 @@ title="Intake Dataset"
 style="height:400px; width:100%; align-self: center; align-items: center;">
 </iframe><br><br>
 
+<p>
+  Finally, I will drop the columns correspond to Name, found locations, Breed and color. Although color and breeds are important decision making factors,
+  their variablities are high and it is difficult to build a machine learning model for them.
+</p>
+<pre>
+  <code class="language-python">
+    # Drop Name, Found location, Breed and Color
+    data.drop(['Name','Found_Location','Breed', 'Color'],axis = 1, inplace = True)
+    data.head()
+  </code>
+</pre>
+<iframe src="../assets/code/tables/final_cat_data.html" 
+name="targetframe" allowTransparency="false"
+scrolling="no" frameborder="0" 
+title="Intake Dataset"
+style="height:400px; width:100%; align-self: center; align-items: center;">
+</iframe><br><br>
+
+<p>
+  Processing of the categorical variables are done. Now is time to use this data to predict the outcome of each animal that comes to the shelter. In the next post I will use different regression analysis and supervised machine learning to perform more in depth analysis of the data.</p><br><br><br>
       </div>
 
     </section>
